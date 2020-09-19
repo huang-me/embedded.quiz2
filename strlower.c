@@ -4,8 +4,7 @@
 #include <stdio.h>
 #include <string.h>
 
-//#define PACKED_BYTE(b) (((uint64_t)(b) & (0xff)) * 0x0101010101010101u)
-#define PACKED_BYTE(b) (((uint64_t)(b)) * 0x0101010101010101u)
+#define PACKED_BYTE(b) (((uint64_t)(b) & (0xff)) * 0x0101010101010101u)
 
 /* in-place implementation for converting all characters into lowercase. */
 void strlower(char *s, size_t n)
@@ -28,7 +27,6 @@ void strlower_vector(char *s, size_t n)
             uint64_t A = *chunk + PACKED_BYTE(128 - 'A' + 0);
             uint64_t Z = *chunk + PACKED_BYTE(128 - 'Z' + (-1));
             uint64_t mask = ((A ^ Z) & PACKED_BYTE(0x80)) >> 2;
-            printf("%lx\n", (A ^ Z));
             *chunk ^= mask;
         } else
             strlower(s, 8);
