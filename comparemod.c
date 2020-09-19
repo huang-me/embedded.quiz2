@@ -32,7 +32,6 @@ int main() {
     }
     printf("after %f\n", (float) (clock() - start) / CLOCKS_PER_SEC);
 
-    // divisor = rand() % 30 + 2;
     start = clock();
     div_init(divisor);
     for (int count = 0; count < 100000000; count++) {
