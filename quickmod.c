@@ -1,3 +1,4 @@
+#include <stdbool.h>
 #include <stdint.h>
 #include <stdio.h>
 
@@ -6,14 +7,22 @@ const uint32_t D = 3;
 
 /* compute (n mod d) given precomputed M */
 uint32_t quickmod(uint32_t n)
-{   uint64_t quotient = ((__uint128_t) M * n) >> 64;
+{
+    uint64_t quotient = ((__uint128_t) M * n) >> 64;
     return n - quotient * D;
 }
 
-int main(int argc, char *argv) {
+bool divisible(int input)
+{
+    return (input * M) <= (M - 1);
+}
+
+int main(int argc, char *argv[])
+{
     int input;
     scanf("%d", &input);
 
     printf("%d\n", quickmod(input));
+    printf("%d\n", divisible(input));
     return 0;
 }

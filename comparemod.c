@@ -11,23 +11,34 @@ void div_init(uint32_t d) {
     return;
 }
 
-int main() {
-    time_t start = time(NULL);
-    srand(time(NULL));
-    for (int count = 0; count < 10000000; count++) {
-        uint32_t divisor = rand() % 30 + 2;
-        uint32_t divident = rand();
-        divident %= divisor;
-    }
-    printf("after %f\n", (float) (time(NULL) - start) / 3600);
-    start = time(NULL);
+uint32_t mod(uint32_t dividend, uint32_t divisor)
+{
+    return dividend % divisor;
+}
 
-    for (int count = 0; count < 10000000; count++) {
-        uint32_t divisor = rand() % 30 + 2;
-        uint32_t divident = rand();
-        divident = ((uint64_t)(divident * magic)) >> 32;
+uint32_t quick_mod(uint32_t dividend)
+{
+    return ((uint64_t)(dividend * magic) >> 32);
+}
+
+int main() {
+    srand(time(NULL));
+
+    uint32_t divisor = rand() % 30 + 2;
+    time_t start = clock();
+    for (int count = 0; count < 100000000; count++) {
+        uint32_t dividend = rand();
+        dividend = mod(dividend, divisor);
     }
-    printf("after quickmod: %f\n", (float) (time(NULL) - start) / 3600);
+    printf("after %f\n", (float) (clock() - start) / CLOCKS_PER_SEC);
+
+    start = clock();
+    div_init(divisor);
+    for (int count = 0; count < 100000000; count++) {
+        uint32_t dividend = rand();
+        dividend = quick_mod(dividend);
+    }
+    printf("after quickmod: %f\n", (float) (clock() - start) / CLOCKS_PER_SEC);
 
     return 0;
 }
