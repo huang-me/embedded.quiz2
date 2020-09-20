@@ -26,7 +26,7 @@ bool is_ascii(const char str[], size_t size)
 
 int main() {
     char str[1000000];
-    scanf("%s", str);
+    scanf("%[^\n]s", str);
 
     bool ans = is_ascii(str, strlen(str));
 
