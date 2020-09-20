@@ -2,6 +2,7 @@ CC = gcc
 ref = comparemod.c is_ascii.c quickmod.c hexchar2val.c strlower.c
 flags = -Wall
 exe = comparemod is_ascii quickmod hexchar2val strlower
+output = *.out.*
 
 all: comparemod is_ascii quickmod hexchar2val strlower
 
@@ -21,4 +22,4 @@ strlower: strlower.c
 	$(CC) $^ -o $@ $(flags)
 
 clean: $(exe)
-	rm -f $(exe)
+	rm -f $(exe) $(output)
