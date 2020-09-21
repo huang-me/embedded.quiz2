@@ -1,6 +1,6 @@
 CC = gcc
 ref = comparemod.c is_ascii.c quickmod.c hexchar2val.c strlower.c
-flags = -Wall
+flags = -Wall -O2
 exe = comparemod is_ascii quickmod hexchar2val strlower
 output = *.out.*
 
