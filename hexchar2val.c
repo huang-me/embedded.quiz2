@@ -20,10 +20,11 @@ uint64_t hexchar2val(char *in)
 int main()
 {
     char input[MAXSIZE];
-    scanf("%s", input);
-
     unsigned long num = 0;
-    num = hexchar2val(input);
-    printf("%lu\n", num);
+
+    if (scanf("%s", input)) {
+        num = hexchar2val(input);
+        printf("%lu\n", num);
+    }
     return 0;
 }
