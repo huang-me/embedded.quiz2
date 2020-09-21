@@ -20,9 +20,10 @@ bool divisible(int input)
 int main(int argc, char *argv[])
 {
     int input;
-    scanf("%d", &input);
 
-    printf("%d\n", quickmod(input));
-    printf("%d\n", divisible(input));
+    if (scanf("%d", &input)) {
+        printf("%d\n", quickmod(input));
+        printf("%d\n", divisible(input));
+    }
     return 0;
 }
