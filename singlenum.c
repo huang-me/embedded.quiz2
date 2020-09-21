@@ -1,37 +1,36 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+int singleNumber4(int *nums, int numsSize)
+{
+    int last1 = 0, last2 = 0, output = 0, last3 = 0;
+    for (int i = 0; i < numsSize; i++) {
+        output = (nums[i] & ~(last1 | last2 | last3)) | (~nums[i] & last1);
+        last3 = (last2 & nums[i]) | (last3 & ~nums[i]);
+        last2 = (last1 & nums[i]) | (last2 & ~nums[i]);
+        last1 = (output & nums[i]) | (last1 & ~nums[i]);
+    }
+    return output;
+}
+
 int singleNumber(int *nums, int numsSize)
 {
-    int lower = 0, higher = 0;
+    int last1 = 0, last2 = 0, output = 0;
     for (int i = 0; i < numsSize; i++) {
-        printf("input: %x%x%x%x\n", (nums[i] >> 3) & 1, (nums[i] >> 2) & 1,
-               (nums[i] >> 1) & 1, nums[i] & 1);
-        lower ^= nums[i];
-        printf("%x%x%x%x, %x%x%x%x\n", (lower >> 3) & 0x01, (lower >> 2) & 0x01,
-               (lower >> 1) & 0x01, (lower) &0x01, (higher >> 3) & 0x01,
-               (higher >> 2) & 0x01, (higher >> 1) & 0x01, (higher) &0x01);
-        lower &= ~higher;
-        printf("%x%x%x%x, %x%x%x%x\n", (lower >> 3) & 0x01, (lower >> 2) & 0x01,
-               (lower >> 1) & 0x01, (lower) &0x01, (higher >> 3) & 0x01,
-               (higher >> 2) & 0x01, (higher >> 1) & 0x01, (higher) &0x01);
-        higher ^= nums[i];
-        printf("%x%x%x%x, %x%x%x%x\n", (lower >> 3) & 0x01, (lower >> 2) & 0x01,
-               (lower >> 1) & 0x01, (lower) &0x01, (higher >> 3) & 0x01,
-               (higher >> 2) & 0x01, (higher >> 1) & 0x01, (higher) &0x01);
-        higher &= ~lower;
-        printf("%x%x%x%x, %x%x%x%x\n", (lower >> 3) & 0x01, (lower >> 2) & 0x01,
-               (lower >> 1) & 0x01, (lower) &0x01, (higher >> 3) & 0x01,
-               (higher >> 2) & 0x01, (higher >> 1) & 0x01, (higher) &0x01);
-        printf("lower: %x, higher: %x\n", lower, higher);
+        output = (nums[i] & ~(last1 | last2)) | (~nums[i] & last1);
+        last2 = (last1 & nums[i]) | (last2 & ~nums[i]);
+        last1 = (output & nums[i]) | (last1 & ~nums[i]);
     }
-    return lower;
-} 
+    return output;
+}
 
 int main() {
-    int nums[10] = {4, 4, 4, 5, 5}, output;
+    int nums[10] = {1, 2, 3, 3, 2, 2, 3, 3, 2}, output;
 
-    output = singleNumber(nums, 5);
+    output = singleNumber4(nums, 9);
+    printf("ANS: %d\n", output);
+    int nums1[10] = {1, 2, 3, 2, 2, 1, 1};
+    output = singleNumber(nums1, 7);
     printf("ANS: %d\n", output);
     return 0;
 }
