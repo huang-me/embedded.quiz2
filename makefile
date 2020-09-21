@@ -1,20 +1,25 @@
 CC = gcc
-ref = comparemod.c is_ascii.c quickmod.c hexchar2val.c
-exe = comparemod is_ascii quickmod hexchar2val
+ref = comparemod.c is_ascii.c quickmod.c hexchar2val.c strlower.c
+flags = -Wall -O2
+exe = comparemod is_ascii quickmod hexchar2val strlower
+output = *.out.*
 
-all: comparemod ascii quickmod hexchar2val
+all: comparemod is_ascii quickmod hexchar2val strlower
 
 comparemod: comparemod.c
-	$(CC) comparemod.c -o comparemod
+	$(CC) $^ -o $@ $(flags)
 
-ascii: is_ascii.c
-	$(CC) is_ascii.c -o is_ascii
+is_ascii: is_ascii.c
+	$(CC) $^ -o $@ $(flags)
 
 quickmod: quickmod.c
-	$(CC) quickmod.c -o quickmod
+	$(CC) $^ -o $@ $(flags)
 
 hexchar2val: hexchar2val.c
-	$(CC) hexchar2val.c -o hexchar2val
+	$(CC) $^ -o $@ $(flags)
+
+strlower: strlower.c
+	$(CC) $^ -o $@ $(flags)
 
 clean: $(exe)
-	rm -f $(exe)
+	rm -f $(exe) $(output)

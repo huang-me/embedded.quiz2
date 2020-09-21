@@ -23,22 +23,33 @@ uint32_t quick_mod(uint32_t dividend)
 
 int main() {
     srand(time(NULL));
+    FILE *mod_file = fopen("mod.txt", "w");
 
-    uint32_t divisor = rand() % 30 + 2;
-    time_t start = clock();
-    for (int count = 0; count < 100000000; count++) {
+    time_t start = clock(), end;
+    for (int count = 0; count < 1000; count++) {
         uint32_t dividend = rand();
-        dividend = mod(dividend, divisor);
+        start = clock();
+        for (int i = 0; i < 1000; i++)
+            dividend = mod(dividend, count + 2);
+        end = clock();
+        fprintf(mod_file, "%f\n", (double) (end - start) / CLOCKS_PER_SEC);
+        printf("ans: %d\n", dividend);
     }
-    printf("after %f\n", (float) (clock() - start) / CLOCKS_PER_SEC);
+    fclose(mod_file);
 
-    start = clock();
-    div_init(divisor);
-    for (int count = 0; count < 100000000; count++) {
+    FILE *quick = fopen("quick_mod.txt", "w");
+
+    for (int count = 0; count < 1000; count++) {
         uint32_t dividend = rand();
-        dividend = quick_mod(dividend);
+        start = clock();
+        for (int i = 0; i < 1000; i++) {
+            div_init(count + 2);
+            dividend = quick_mod(dividend);
+        }
+        end = clock();
+        fprintf(quick, "%f\n", (double) (end - start) / CLOCKS_PER_SEC);
+        printf("ans: %d\n", dividend);
     }
-    printf("after quickmod: %f\n", (float) (clock() - start) / CLOCKS_PER_SEC);
 
     return 0;
 }
